@@ -1,21 +1,29 @@
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees;
+
 USE employees;
 
--- insert entries into department --
-INSERT INTO department
-    (name)
-VALUES
-("Sales"),
-("Marketing"),
-("Finance"),
-("Legal"),
-("Engineering");
+CREATE TABLE department (
 
-INSERT INTO role
-()
-VALUES
-()
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(250) UNIQUE NOT NULL 
+);
 
-INSERT INTO employees
-()
-VALUES
-()
+CREATE TABLE role (
+    --code here
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(250) UNIQUE NOT NULL,
+    salary DECIMAL UNSIGNED NOT NULL,
+    department_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY(department.id),
+    REFERENCES department(id) 
+)
+
+CREATE TABLE employee (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(250) UNIQUE NOT NULL,
+    last_name VARCHAR(250) UNIQUE NOT NULL,
+    role_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY(role_id),
+    REFERENCES role(id),
+);
