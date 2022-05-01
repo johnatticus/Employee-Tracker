@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "inquirer": "^8.2.4",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node": "^17.7.2"
   },
   "name": "employee-tracker",
   "description": "An app that allows a business owner to view and manager various aspects of their business",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
