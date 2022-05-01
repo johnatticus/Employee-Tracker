@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql": "^2.18.1"
+  },
+  "name": "employee-tracker",
+  "description": "An app that allows a business owner to view and manager various aspects of their business",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnatticus/Employee-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnatticus/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/johnatticus/Employee-Tracker#readme"
+}
