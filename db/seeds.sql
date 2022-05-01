@@ -13,14 +13,15 @@ VALUES
 INSERT INTO role
 (title, salary, department_id)
 VALUES
-("Senior Developer, 100000, 1"),
-("HR Business Partner, 150000, 1"),
-("Operations Manager, 100000, 1"),
-("Lawyer, 90000, 1");
+("Senior Developer, 95000, 1"),
+("Junior Developer, 60000, 2"),
+("HR Business Partner, 150000, 3"),
+("Operations Manager, 100000, 4"),
+("Lawyer, 90000, 5");
 
 
 
-INSERT INTO employees
+INSERT INTO employee
 (first_name, last_name, role_id)
 VALUES
 ("Thad", "Jarvis", 1),
