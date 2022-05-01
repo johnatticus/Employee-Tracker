@@ -1,7 +1,7 @@
 const { prompt } = require("inquirer");
 // const db = require("./db");
 // const connection = require("./db/connection");
-// const cTable = require('console.table');
+const cTable = require('console.table');
 const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
@@ -102,7 +102,7 @@ function mainMenu() {
         // when?
     })
 }
-
+6104
 function addDepartment() {
     prompt([
                 {
@@ -111,7 +111,20 @@ function addDepartment() {
                     message: "Enter name of new department:"
                 }
     ]).then(res => {
-        let choices = res.choices;
+        let choices = res.newDepartmentName;
+        // console.log(choices)
+        connection.query(
+            `INSERT INTO department (name) VALUES ("${choices}")`, (err, results) => {
+                if (err) {
+                    console.log(err);
+                }        
+                console.log(`Successfully added ${choices} as a new department.`)
+                console.log("\n");    
+                console.table(results);
+                console.log("\n");    
+                mainMenu();
+            }
+        )
         // now we call the appriopriate function depending on what the user chooses
         // how would we organize this?
         // if conditional?
