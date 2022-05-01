@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "console.table": "^0.10.0",
     "inquirer": "^8.2.4",
     "mysql": "^2.18.1",
-    "node": "^17.7.2"
+    "mysql2": "^2.3.3"
   },
   "name": "employee-tracker",
   "description": "An app that allows a business owner to view and manager various aspects of their business",

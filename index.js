@@ -1,7 +1,20 @@
 const { prompt } = require("inquirer");
 // const db = require("./db");
-// const connection = require("connection");
-require("console.table");
+// const connection = require("./db/connection");
+// const cTable = require('console.table');
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "rootroot",
+    database: "employees"
+});
+
+// set up error handling in case the connection fails/breaks
+connection.connect(function (err) {
+    if (err) throw (err);
+});
 
 // inquirer here
 function mainMenu() {
@@ -48,10 +61,40 @@ function mainMenu() {
             ]
         }
     ]).then(res => {
-        let choices = res.choices;
-        if (choices = "VIEW EMPLOYEES") {
-            viewEmployees()
+        switch(res.choice) {
+            case 'VIEW_EMPLOYEES':
+                viewEmployees();
+                break;
+            case 'VIEW_DEPARTMENTS':
+                viewDepartments();
+                break;
+            case 'VIEW_ROLES':
+                viewRoles();
+                break;
+            case 'ADD_EMPLOYEE':
+                addEmployee();
+                break;
+            case 'ADD_DEPARTMENT':
+                addDepartment();
+                break;
+            case 'UPDATE_ROLE':
+                updateRole();
+                break;
+            case 'QUIT':
+                quit();
+                break;
         }
+        // let choices = res.choices;
+        // if (choices = "VIEW_EMPLOYEES") {
+        //     viewEmployees();
+        // } else if (res.choices = "VIEW_DEPARTMENTS") {
+        //     console.log(VIEW_DEPARTMENT);
+        //     viewDepartments();
+        // } else if (choices = "QUIT") {
+        //     console.log(choices)
+
+        //     quit()
+        // }
         // now we call the appriopriate function depending on what the user chooses
         // how would we organize this?
         // if conditional?
@@ -176,14 +219,48 @@ function addDepartment() {
 // }
 
 function viewEmployees() {
-    db.findAllEmployees()
-    .then(([rows]) => {
-        let employees = rows;
-        console.log("\n");
-        console.table(employees)
-})
-.then(() => mainMenu());
-}
+    connection.query(
+        'SELECT * FROM employees.employee', (err, results) => {
+            if (err) {
+                console.log(err);
+            }        
+            console.log("\n");    
+            console.table(results);
+            console.log("\n");    
+            mainMenu();
+        }
+    )}
+//     .then(([rows]) => {
+//         let employees = rows;
+//         console.log("\n");
+//         console.table(employees)
+// })
+// .then(() => mainMenu());
+// }
+function viewDepartments() {
+    connection.query(
+        'SELECT * FROM employees.department', (err, results) => {
+            if (err) {
+                console.log(err);
+            }        
+            console.log("\n");    
+            console.table(results);
+            console.log("\n");    
+            mainMenu();
+        }
+    )}
+
+    function viewRoles() {
+        connection.query(
+            'SELECT * FROM employees.role', (err, results) => {
+                if (err) {
+                    console.log(err);
+                }        
+                console.log("\n");    
+                console.table(results);
+                mainMenu();
+            }
+        )}
 
 function init() {
     console.log(" _______ _______  _____          _____  __   __ _______ _______\r\n |______ |  |  | |_____] |      |     |   \\_\/   |______ |______\r\n |______ |  |  | |       |_____ |_____|    |    |______ |______\r\n                                                               \r\n _______  ______ _______ _______ _     _ _______  ______       \r\n    |    |_____\/ |_____| |       |____\/  |______ |_____\/       \r\n    |    |    \\_ |     | |_____  |    \\_ |______ |    \\_");
