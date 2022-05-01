@@ -76,7 +76,6 @@ function addDepartment() {
         // when?
     })
 
-
     function addRole() {
         prompt([
                     {
@@ -104,8 +103,69 @@ function addDepartment() {
         })
     }}
 
+    function addEmployee() {
+        prompt([
+                    {
+                        type: "input",
+                        message: "Enter first name:",
+                        name: "newEmployeeFirstName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter last name:",
+                        name: "newEmployeeLastName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter the employee's role:",
+                        name: "newEmployeeRole"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter the employee's manager:",
+                        name: "newEmployeeManager"
+                    }
+        ]).then(res => {
+            let choices = res.choices;
+            // now we call the appriopriate function depending on what the user chooses
+            // how would we organize this?
+            // if conditional?
+            // switch/case?
+            // when?
+        })
+    }
 
-
+    function updateRole() {
+        prompt([
+                    {
+                        type: "input",
+                        message: "Enter first name:",
+                        name: "newEmployeeFirstName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter last name:",
+                        name: "newEmployeeLastName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter the employee's role:",
+                        name: "newEmployeeRole"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter the employee's manager:",
+                        name: "newEmployeeManager"
+                    }
+        ]).then(res => {
+            let choices = res.choices;
+            // now we call the appriopriate function depending on what the user chooses
+            // how would we organize this?
+            // if conditional?
+            // switch/case?
+            // when?
+        })
+    }
 
 
 // conditional statements here - call cooresponding function
