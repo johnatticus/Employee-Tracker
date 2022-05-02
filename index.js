@@ -193,8 +193,11 @@ function addDepartment() {
         // switch/case?
         // when?
     })
+}
 
-    function addRole() {
+function addRole() {
+    let deptList = connection.query('SELECT * FROM employees.department', (err, results) => {
+        if (err) throw err;
         prompt([
                     {
                         type: "input",
@@ -207,13 +210,19 @@ function addDepartment() {
                         name: "newRoleSalary"
                     },
                     {
-                        type: "input",
+                        type: "list",
                         message: "Enter the department this role belongs to:",
-                        name: "newRoleDepartment"
+                        name: "newRoleDepartment",
+                        choices: 
+                            results.map((deptList) => {
+                                return {
+                                    name: deptList.name,
+                                    value: deptList.id
+                                }
+                            })
+                        
                     }
         ]).then(res => {
-            // let choices = res.newDepartmentName;
-            // console.log(choices)
             connection.query(
                 `INSERT INTO role (title, salary, department_id) VALUES ("${res.newRoleName}", ${res.newRoleSalary}, ${res.newRoleDepartment})`, (err, results) => {
                     if (err) {
@@ -232,7 +241,8 @@ function addDepartment() {
             // switch/case?
             // when?
         })
-}}
+}
+)}
 
 function updateRole() {
     connection.query('SELECT role.title FROM employees.role', (err, results) => {
