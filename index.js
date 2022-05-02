@@ -1,18 +1,19 @@
 const { prompt } = require("inquirer");
 const cTable = require('console.table');
-const mysql = require("mysql2");
+const connection = require('./db/connection')
+// const mysql = require("mysql2");
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "rootroot",
-    database: "employees"
-});
+// const connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "rootroot",
+//     database: "employees"
+// });
 
-// set up error handling in case the connection fails/breaks
-connection.connect(function (err) {
-    if (err) throw (err);
-});
+// // set up error handling in case the connection fails/breaks
+// connection.connect(function (err) {
+//     if (err) throw (err);
+// });
 
 // inquirer here
 function mainMenu() {
@@ -146,7 +147,7 @@ function addEmployee() {
         ]).then(res => {
             let choices = res.choices;
             connection.query(
-                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName}, )`, (err, results) => {
+                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName})`, (err, results) => {
                     if (err) {
                         console.log(err);
                     }        
