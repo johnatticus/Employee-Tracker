@@ -245,24 +245,27 @@ function addRole() {
 )}
 
 function updateRole() {
-    connection.query('SELECT role.title FROM employees.role', (err, results) => {
+    let empName = connection.query('SELECT * FROM employees.employee', (err, results) => {
         if (err) throw err;
         prompt([
                     {
-                        type: "input",
-                        message: "Enter first name:",
-                        name: "newEmployeeFirstName"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter last name:",
-                        name: "newEmployeeLastName"
+                        type: "list",
+                        message: "Pick employee:",
+                        name: "employeeName",
+                        choices: 
+                        results.map((empName) => {
+                            return {
+                                name: `${empName.first_name} ${empName.last_name}`
+                                // value: empName.id
+                            }
+                        })
                     },
                     {
                         type: "list",
                         message: "Enter the employee's role:",
                         name: "newEmployeeRole",
-                        choices: results.map(a => a.title)
+                        choices: []
+                        
                     }
         ]).then(res => {
             let choices = res.choices;
