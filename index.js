@@ -1,21 +1,8 @@
 const { prompt } = require("inquirer");
 const cTable = require('console.table');
 const connection = require('./db/connection')
-// const mysql = require("mysql2");
 
-// const connection = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "rootroot",
-//     database: "employees"
-// });
-
-// // set up error handling in case the connection fails/breaks
-// connection.connect(function (err) {
-//     if (err) throw (err);
-// });
-
-// inquirer here
+// main menu function
 function mainMenu() {
     prompt([
         {
@@ -48,6 +35,10 @@ function mainMenu() {
                     name: "Add Department",
                     value: "ADD_DEPARTMENT"
                 },
+                {
+                    name: "Add Role",
+                    value: "ADD_ROLE"
+                },
                 // update a employee role
                 {
                     name: "Update Employee Role",
@@ -76,6 +67,9 @@ function mainMenu() {
             case 'ADD_DEPARTMENT':
                 addDepartment();
                 break;
+            case 'ADD_ROLE':
+                addRole();
+                break;    
             case 'UPDATE_ROLE':
                 updateRole();
                 break;
@@ -86,6 +80,7 @@ function mainMenu() {
     });
 }
 
+// view all employees function
 function viewEmployees() {
     connection.query(
         'SELECT * FROM employees.employee', (err, results) => {
@@ -99,6 +94,7 @@ function viewEmployees() {
         }
     )}
 
+// view a list of departments
 function viewDepartments() {
     connection.query(
         'SELECT * FROM employees.department', (err, results) => {
@@ -125,7 +121,7 @@ function viewRoles() {
     )}
 
 function addEmployee() {
-    connection.query('SELECT role.title FROM employees.role', (err, results) => {
+    let roleList = connection.query('SELECT * FROM employees.role', (err, results) => {
         if (err) throw err;
         prompt([
                     {
@@ -142,12 +138,19 @@ function addEmployee() {
                         type: "list",
                         message: "Enter the employee's role:",
                         name: "newEmployeeRole",
-                        choices: results.map(a => a.title)
+                        choices:
+                        results.map((roleList) => {
+                            return {
+                                name: roleList.title,
+                                value: roleList.id
+                            }
+                        })
+                        // results.map(a => a.title)
                     }
         ]).then(res => {
-            let choices = res.choices;
+            // let choices = res.choices;
             connection.query(
-                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName})`, (err, results) => {
+                `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${res.newEmployeeFirstName}", "${res.newEmployeeLastName}", ${res.newEmployeeRole})`, (err, results) => {
                     if (err) {
                         console.log(err);
                     }        
