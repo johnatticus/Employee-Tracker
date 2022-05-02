@@ -1,6 +1,4 @@
 const { prompt } = require("inquirer");
-// const db = require("./db");
-// const connection = require("./db/connection");
 const cTable = require('console.table');
 const mysql = require("mysql2");
 
@@ -84,24 +82,84 @@ function mainMenu() {
                 quit();
                 break;
         }
-        // let choices = res.choices;
-        // if (choices = "VIEW_EMPLOYEES") {
-        //     viewEmployees();
-        // } else if (res.choices = "VIEW_DEPARTMENTS") {
-        //     console.log(VIEW_DEPARTMENT);
-        //     viewDepartments();
-        // } else if (choices = "QUIT") {
-        //     console.log(choices)
-
-        //     quit()
-        // }
-        // now we call the appriopriate function depending on what the user chooses
-        // how would we organize this?
-        // if conditional?
-        // switch/case?
-        // when?
-    })
+    });
 }
+
+function viewEmployees() {
+    connection.query(
+        'SELECT * FROM employees.employee', (err, results) => {
+            if (err) {
+                console.log(err);
+            }        
+            console.log("\n");    
+            console.table(results);
+            console.log("\n");    
+            mainMenu();
+        }
+    )}
+
+function viewDepartments() {
+    connection.query(
+        'SELECT * FROM employees.department', (err, results) => {
+            if (err) {
+                console.log(err);
+            }        
+            console.log("\n");    
+            console.table(results);
+            console.log("\n");    
+            mainMenu();
+        }
+    )}
+
+function viewRoles() {
+        connection.query(
+            'SELECT * FROM employees.role', (err, results) => {
+                if (err) {
+                    console.log(err);
+                }        
+                console.log("\n");    
+                console.table(results);
+                mainMenu();
+            }
+    )}
+
+function addEmployee() {
+    connection.query('SELECT role.title FROM employees.role', (err, results) => {
+        if (err) throw err;
+        prompt([
+                    {
+                        type: "input",
+                        message: "Enter first name:",
+                        name: "newEmployeeFirstName"
+                    },
+                    {
+                        type: "input",
+                        message: "Enter last name:",
+                        name: "newEmployeeLastName"
+                    },
+                    {
+                        type: "list",
+                        message: "Enter the employee's role:",
+                        name: "newEmployeeRole",
+                        choices: results.map(a => a.title)
+                    }
+        ]).then(res => {
+            let choices = res.choices;
+            connection.query(
+                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName}, )`, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                    }        
+                    console.log(`Successfully added the new employee.`)
+                    console.log("\n");    
+                    console.table(results);
+                    console.log("\n");    
+                    mainMenu();
+                }
+            )
+        });
+    });
+    }
 
 function addDepartment() {
     prompt([
@@ -150,7 +208,20 @@ function addDepartment() {
                         name: "newRoleDepartment"
                     }
         ]).then(res => {
-            let choices = res.choices;
+            // let choices = res.newDepartmentName;
+            // console.log(choices)
+            connection.query(
+                `INSERT INTO role (title, salary, department_id) VALUES ("${res.newRoleName}", ${res.newRoleSalary}, ${res.newRoleDepartment})`, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                    }        
+                    console.log(`Successfully added the new role.`)
+                    console.log("\n");    
+                    console.table(results);
+                    console.log("\n");    
+                    mainMenu();
+                }
+            )
             // now we call the appriopriate function depending on what the user chooses
             // how would we organize this?
             // if conditional?
@@ -158,44 +229,6 @@ function addDepartment() {
             // when?
         })
     }}
-
-    function addEmployee() {       
-        prompt([
-                    {
-                        type: "input",
-                        message: "Enter first name:",
-                        name: "newEmployeeFirstName"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter last name:",
-                        name: "newEmployeeLastName"
-                    },
-                    {
-                        type: "list",
-                        message: "Enter the employee's role:",
-                        name: "newEmployeeRole",
-                        choices:
-                        [
-                            connection.query('SELECT role.title FROM employees.role', (err, results) => {
-                                    if (err) {
-                                        console.log(err);
-                                    } else {
-                                        let newArr = [];
-                                        console.log(res);
-                                    }
-                                    }) 
-                        ]
-                    }
-        ]).then(res => {
-            let choices = res.choices;
-            // now we call the appriopriate function depending on what the user chooses
-            // how would we organize this?
-            // if conditional?
-            // switch/case?
-            // when?
-        })
-    }
 
     function updateRole() {
         prompt([
@@ -228,58 +261,6 @@ function addDepartment() {
             // when?
         })
     }
-
-
-// conditional statements here - call cooresponding function
-
-// async function viewEmployees() {
-//     let employees = await db.findAllEmployees();
-//     console.table(employees);
-// }
-
-function viewEmployees() {
-    connection.query(
-        'SELECT * FROM employees.employee', (err, results) => {
-            if (err) {
-                console.log(err);
-            }        
-            console.log("\n");    
-            console.table(results);
-            console.log("\n");    
-            mainMenu();
-        }
-    )}
-//     .then(([rows]) => {
-//         let employees = rows;
-//         console.log("\n");
-//         console.table(employees)
-// })
-// .then(() => mainMenu());
-// }
-function viewDepartments() {
-    connection.query(
-        'SELECT * FROM employees.department', (err, results) => {
-            if (err) {
-                console.log(err);
-            }        
-            console.log("\n");    
-            console.table(results);
-            console.log("\n");    
-            mainMenu();
-        }
-    )}
-
-    function viewRoles() {
-        connection.query(
-            'SELECT * FROM employees.role', (err, results) => {
-                if (err) {
-                    console.log(err);
-                }        
-                console.log("\n");    
-                console.table(results);
-                mainMenu();
-            }
-        )}
 
 function init() {
     console.log(" _______ _______  _____          _____  __   __ _______ _______\r\n |______ |  |  | |_____] |      |     |   \\_\/   |______ |______\r\n |______ |  |  | |       |_____ |_____|    |    |______ |______\r\n                                                               \r\n _______  ______ _______ _______ _     _ _______  ______       \r\n    |    |_____\/ |_____| |       |____\/  |______ |_____\/       \r\n    |    |    \\_ |     | |_____  |    \\_ |______ |    \\_");
