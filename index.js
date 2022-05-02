@@ -102,7 +102,7 @@ function mainMenu() {
         // when?
     })
 }
-6104
+
 function addDepartment() {
     prompt([
                 {
@@ -159,7 +159,7 @@ function addDepartment() {
         })
     }}
 
-    function addEmployee() {
+    function addEmployee() {       
         prompt([
                     {
                         type: "input",
@@ -172,14 +172,20 @@ function addDepartment() {
                         name: "newEmployeeLastName"
                     },
                     {
-                        type: "input",
+                        type: "list",
                         message: "Enter the employee's role:",
-                        name: "newEmployeeRole"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter the employee's manager:",
-                        name: "newEmployeeManager"
+                        name: "newEmployeeRole",
+                        choices:
+                        [
+                            connection.query('SELECT role.title FROM employees.role', (err, results) => {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        let newArr = [];
+                                        console.log(res);
+                                    }
+                                    }) 
+                        ]
                     }
         ]).then(res => {
             let choices = res.choices;
