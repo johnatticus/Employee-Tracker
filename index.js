@@ -228,9 +228,11 @@ function addDepartment() {
             // switch/case?
             // when?
         })
-    }}
+}}
 
-    function updateRole() {
+function updateRole() {
+    connection.query('SELECT role.title FROM employees.role', (err, results) => {
+        if (err) throw err;
         prompt([
                     {
                         type: "input",
@@ -243,23 +245,27 @@ function addDepartment() {
                         name: "newEmployeeLastName"
                     },
                     {
-                        type: "input",
+                        type: "list",
                         message: "Enter the employee's role:",
-                        name: "newEmployeeRole"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter the employee's manager:",
-                        name: "newEmployeeManager"
+                        name: "newEmployeeRole",
+                        choices: results.map(a => a.title)
                     }
         ]).then(res => {
             let choices = res.choices;
-            // now we call the appriopriate function depending on what the user chooses
-            // how would we organize this?
-            // if conditional?
-            // switch/case?
-            // when?
-        })
+            connection.query(
+                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName}, )`, (err, results) => {
+                    if (err) {
+                        console.log(err);
+                    }        
+                    console.log(`Successfully added the new employee.`)
+                    console.log("\n");    
+                    console.table(results);
+                    console.log("\n");    
+                    mainMenu();
+                }
+            )
+        });
+    });
     }
 
 function init() {
