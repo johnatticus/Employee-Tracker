@@ -51,7 +51,7 @@ function mainMenu() {
             ]
         }
     ]).then(res => {
-        switch(res.choice) {
+        switch (res.choice) {
             case 'VIEW_EMPLOYEES':
                 viewEmployees();
                 break;
@@ -69,7 +69,7 @@ function mainMenu() {
                 break;
             case 'ADD_ROLE':
                 addRole();
-                break;    
+                break;
             case 'UPDATE_ROLE':
                 updateRole();
                 break;
@@ -86,13 +86,14 @@ function viewEmployees() {
         'SELECT * FROM employees.employee', (err, results) => {
             if (err) {
                 console.log(err);
-            }        
-            console.log("\n");    
+            }
+            console.log("\n");
             console.table(results);
-            console.log("\n");    
+            console.log("\n");
             mainMenu();
         }
-    )}
+    )
+}
 
 // view a list of departments
 function viewDepartments() {
@@ -100,78 +101,80 @@ function viewDepartments() {
         'SELECT * FROM employees.department', (err, results) => {
             if (err) {
                 console.log(err);
-            }        
-            console.log("\n");    
+            }
+            console.log("\n");
             console.table(results);
-            console.log("\n");    
+            console.log("\n");
             mainMenu();
         }
-    )}
+    )
+}
 
 function viewRoles() {
-        connection.query(
-            'SELECT * FROM employees.role', (err, results) => {
-                if (err) {
-                    console.log(err);
-                }        
-                console.log("\n");    
-                console.table(results);
-                mainMenu();
+    connection.query(
+        'SELECT * FROM employees.role', (err, results) => {
+            if (err) {
+                console.log(err);
             }
-    )}
+            console.log("\n");
+            console.table(results);
+            mainMenu();
+        }
+    )
+}
 
 function addEmployee() {
     let roleList = connection.query('SELECT * FROM employees.role', (err, results) => {
         if (err) throw err;
         prompt([
-                    {
-                        type: "input",
-                        message: "Enter first name:",
-                        name: "newEmployeeFirstName"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter last name:",
-                        name: "newEmployeeLastName"
-                    },
-                    {
-                        type: "list",
-                        message: "Enter the employee's role:",
-                        name: "newEmployeeRole",
-                        choices:
-                        results.map((roleList) => {
-                            return {
-                                name: roleList.title,
-                                value: roleList.id
-                            }
-                        })
-                        // results.map(a => a.title)
-                    }
+            {
+                type: "input",
+                message: "Enter first name:",
+                name: "newEmployeeFirstName"
+            },
+            {
+                type: "input",
+                message: "Enter last name:",
+                name: "newEmployeeLastName"
+            },
+            {
+                type: "list",
+                message: "Enter the employee's role:",
+                name: "newEmployeeRole",
+                choices:
+                    results.map((roleList) => {
+                        return {
+                            name: roleList.title,
+                            value: roleList.id
+                        }
+                    })
+                // results.map(a => a.title)
+            }
         ]).then(res => {
             // let choices = res.choices;
             connection.query(
                 `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${res.newEmployeeFirstName}", "${res.newEmployeeLastName}", ${res.newEmployeeRole})`, (err, results) => {
                     if (err) {
                         console.log(err);
-                    }        
+                    }
                     console.log(`Successfully added the new employee.`)
-                    console.log("\n");    
+                    console.log("\n");
                     console.table(results);
-                    console.log("\n");    
+                    console.log("\n");
                     mainMenu();
                 }
             )
         });
     });
-    }
+}
 
 function addDepartment() {
     prompt([
-                {
-                    type: "input",
-                    name: "newDepartmentName",
-                    message: "Enter name of new department:"
-                }
+        {
+            type: "input",
+            name: "newDepartmentName",
+            message: "Enter name of new department:"
+        }
     ]).then(res => {
         let choices = res.newDepartmentName;
         // console.log(choices)
@@ -179,11 +182,11 @@ function addDepartment() {
             `INSERT INTO department (name) VALUES ("${choices}")`, (err, results) => {
                 if (err) {
                     console.log(err);
-                }        
+                }
                 console.log(`Successfully added ${choices} as a new department.`)
-                console.log("\n");    
+                console.log("\n");
                 console.table(results);
-                console.log("\n");    
+                console.log("\n");
                 mainMenu();
             }
         )
@@ -199,39 +202,39 @@ function addRole() {
     let deptList = connection.query('SELECT * FROM employees.department', (err, results) => {
         if (err) throw err;
         prompt([
-                    {
-                        type: "input",
-                        message: "Enter name of new role:",
-                        name: "newRoleName"
-                    },
-                    {
-                        type: "input",
-                        message: "Enter salary of this role:",
-                        name: "newRoleSalary"
-                    },
-                    {
-                        type: "list",
-                        message: "Enter the department this role belongs to:",
-                        name: "newRoleDepartment",
-                        choices: 
-                            results.map((deptList) => {
-                                return {
-                                    name: deptList.name,
-                                    value: deptList.id
-                                }
-                            })
-                        
-                    }
+            {
+                type: "input",
+                message: "Enter name of new role:",
+                name: "newRoleName"
+            },
+            {
+                type: "input",
+                message: "Enter salary of this role:",
+                name: "newRoleSalary"
+            },
+            {
+                type: "list",
+                message: "Enter the department this role belongs to:",
+                name: "newRoleDepartment",
+                choices:
+                    results.map((deptList) => {
+                        return {
+                            name: deptList.name,
+                            value: deptList.id
+                        }
+                    })
+
+            }
         ]).then(res => {
             connection.query(
                 `INSERT INTO role (title, salary, department_id) VALUES ("${res.newRoleName}", ${res.newRoleSalary}, ${res.newRoleDepartment})`, (err, results) => {
                     if (err) {
                         console.log(err);
-                    }        
+                    }
                     console.log(`Successfully added the new role.`)
-                    console.log("\n");    
+                    console.log("\n");
                     console.table(results);
-                    console.log("\n");    
+                    console.log("\n");
                     mainMenu();
                 }
             )
@@ -241,49 +244,69 @@ function addRole() {
             // switch/case?
             // when?
         })
+    }
+    )
 }
-)}
 
+// var rolesForUpdateRole = function () {
+//     let roleList = connection.query('SELECT * FROM employees.role', (err, results) => {
+//         results.map((roleList) => {
+//             return {
+//                 name: roleList.title,
+//                 value: roleList.id
+//             }
+//         })
+//     }
+//     )
+// }
+// SELECT * FROM employees.employee
 function updateRole() {
-    let empName = connection.query('SELECT * FROM employees.employee', (err, results) => {
+    let empName = connection.query('SELECT employee.first_name AS firstname, employee.last_name AS lastname, employee.id AS empId, employee.role_id AS empRoleId, role.title AS role FROM employee JOIN role ON employee.role_id = role.id', (err, results) => {
         if (err) throw err;
         prompt([
-                    {
-                        type: "list",
-                        message: "Pick employee:",
-                        name: "employeeName",
-                        choices: 
-                        results.map((empName) => {
-                            return {
-                                name: `${empName.first_name} ${empName.last_name}`
-                                // value: empName.id
-                            }
-                        })
-                    },
-                    {
-                        type: "list",
-                        message: "Enter the employee's role:",
-                        name: "newEmployeeRole",
-                        choices: []
-                        
-                    }
+            {
+                type: "list",
+                message: "Pick employee:",
+                name: "employeeName",
+                choices:
+                    results.map((empName) => {
+                        return {
+                            name: `${empName.firstname} ${empName.lastname}`,
+                            value: `${empName.empId}`
+                        }
+                    })
+            },
+            {
+                type: "list",
+                message: "Enter the employee's role:",
+                name: "newEmployeeRole",
+                choices:
+                    results.map((empName) => {
+                        return {
+                            name: `${empName.role}`,
+                            value: `${empName.empRoleId}`
+
+                        }
+                    })
+            }
         ]).then(res => {
             let choices = res.choices;
             connection.query(
-                `INSERT INTO employee (first_name, last_name) VALUES ("${res.newEmployeeFirstName}", ${res.newEmployeeLastName}, )`, (err, results) => {
+                `UPDATE employee SET role_id = ${res.newEmployeeRole} WHERE id = ${res.employeeName}`, (err, results) => {
                     if (err) {
                         console.log(err);
-                    }        
-                    console.log(`Successfully added the new employee.`)
-                    console.log("\n");    
+                    }
+                    console.log(`Successfully updated the employee's role.`)
+                    console.log("\n");
                     console.table(results);
-                    console.log("\n");    
+                    console.log("\n");
                     mainMenu();
                 }
             )
         });
     });
-    }
+}
+
 
 function init() {
     console.log(" _______ _______  _____          _____  __   __ _______ _______\r\n |______ |  |  | |_____] |      |     |   \\_\/   |______ |______\r\n |______ |  |  | |       |_____ |_____|    |    |______ |______\r\n                                                               \r\n _______  ______ _______ _______ _     _ _______  ______       \r\n    |    |_____\/ |_____| |       |____\/  |______ |_____\/       \r\n    |    |    \\_ |     | |_____  |    \\_ |______ |    \\_");
