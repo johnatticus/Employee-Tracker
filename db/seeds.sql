@@ -1,6 +1,5 @@
 USE employees;
 
--- insert entries into department --
 INSERT INTO department
     (name)
 VALUES
@@ -18,8 +17,6 @@ VALUES
 ("HR Business Partner, 150000, 3"),
 ("Operations Manager, 100000, 4"),
 ("Lawyer, 90000, 5");
-
-
 
 INSERT INTO employee
 (first_name, last_name, role_id)

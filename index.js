@@ -110,6 +110,7 @@ function viewDepartments() {
     )
 }
 
+// view a list of all roles
 function viewRoles() {
     connection.query(
         'SELECT role.title AS "Job Title", role.id AS "Role ID", department.name AS Name, role.salary AS Salary FROM role JOIN department ON role.department_id = department.id', (err, results) => {
@@ -123,6 +124,7 @@ function viewRoles() {
     )
 }
 
+// add an employee
 function addEmployee() {
     let roleList = connection.query('SELECT * FROM employees.role', (err, results) => {
         if (err) throw err;
@@ -168,6 +170,7 @@ function addEmployee() {
     });
 }
 
+// add a new department
 function addDepartment() {
     prompt([
         {
@@ -198,6 +201,7 @@ function addDepartment() {
     })
 }
 
+// add a new role
 function addRole() {
     let deptList = connection.query('SELECT * FROM employees.department', (err, results) => {
         if (err) throw err;
@@ -248,18 +252,7 @@ function addRole() {
     )
 }
 
-// var rolesForUpdateRole = function () {
-//     let roleList = connection.query('SELECT * FROM employees.role', (err, results) => {
-//         results.map((roleList) => {
-//             return {
-//                 name: roleList.title,
-//                 value: roleList.id
-//             }
-//         })
-//     }
-//     )
-// }
-// SELECT * FROM employees.employee
+// update an employee's role to another role
 function updateRole() {
     let empName = connection.query('SELECT employee.first_name AS firstname, employee.last_name AS lastname, employee.id AS empId, employee.role_id AS empRoleId, role.title AS role FROM employee JOIN role ON employee.role_id = role.id', (err, results) => {
         if (err) throw err;
@@ -307,16 +300,18 @@ function updateRole() {
     });
 }
 
-
+// initial function to display welcome text and move to the main menu
 function init() {
     console.log(" _______ _______  _____          _____  __   __ _______ _______\r\n |______ |  |  | |_____] |      |     |   \\_\/   |______ |______\r\n |______ |  |  | |       |_____ |_____|    |    |______ |______\r\n                                                               \r\n _______  ______ _______ _______ _     _ _______  ______       \r\n    |    |_____\/ |_____| |       |____\/  |______ |_____\/       \r\n    |    |    \\_ |     | |_____  |    \\_ |______ |    \\_");
     console.log("Welcome to Employee Tracker. Enjoy tracking your employees.");
     mainMenu();
 }
 
+// quit the app function
 function quit() {
     console.log("Thank you tracking your employees.");
     process.exit();
 }
 
+// calls first function when the app is initially ran
 init();
