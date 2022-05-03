@@ -83,7 +83,7 @@ function mainMenu() {
 // view all employees function
 function viewEmployees() {
     connection.query(
-        'SELECT * FROM employees.employee', (err, results) => {
+        'SELECT employee.id AS ID, employee.first_name AS "First Name", employee.last_name AS "Last Name", role.title AS Title, department.name AS Department, role.salary AS Salary FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id', (err, results) => {
             if (err) {
                 console.log(err);
             }
@@ -98,7 +98,7 @@ function viewEmployees() {
 // view a list of departments
 function viewDepartments() {
     connection.query(
-        'SELECT * FROM employees.department', (err, results) => {
+        'SELECT department.id AS "Dept ID", department.name AS "Dept Name" FROM department', (err, results) => {
             if (err) {
                 console.log(err);
             }
@@ -112,7 +112,7 @@ function viewDepartments() {
 
 function viewRoles() {
     connection.query(
-        'SELECT * FROM employees.role', (err, results) => {
+        'SELECT role.title AS "Job Title", role.id AS "Role ID", department.name AS Department, role.salary AS Salary FROM role JOIN department ON role.department_id = department.id', (err, results) => {
             if (err) {
                 console.log(err);
             }
