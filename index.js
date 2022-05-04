@@ -113,7 +113,7 @@ function viewDepartments() {
 // view a list of all roles
 function viewRoles() {
     connection.query(
-        'SELECT role.title AS "Job Title", role.id AS "Role ID", department.name AS Name, role.salary AS Salary FROM role JOIN department ON role.department_id = department.id', (err, results) => {
+        'SELECT role.title AS "Job Title", role.id AS "Role ID", department.name AS Department, role.salary AS Salary FROM role JOIN department ON role.department_id = department.id', (err, results) => {
             if (err) {
                 console.log(err);
             }
