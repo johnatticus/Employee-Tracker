@@ -161,7 +161,7 @@ function addEmployee() {
                     }
                     console.log(`Successfully added the new employee.`)
                     console.log("\n");
-                    console.table(results);
+                    // console.table(results);
                     console.log("\n");
                     mainMenu();
                 }

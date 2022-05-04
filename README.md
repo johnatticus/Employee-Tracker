@@ -5,6 +5,8 @@
 
 ![Employee Tracker](https://raw.githubusercontent.com/johnatticus/Employee-Tracker/main/assets/images/screenshot.png)
 
+[CLICK HERE for demonstration video](https://drive.google.com/file/d/1zZGE0PaxTFPVXISN22Xi5ZgZdbtIvWJE/view)
+
 ---
 ## Table of Contents
   - [License](#license)
@@ -33,7 +35,7 @@
 
 **Test Commands:** node index
 
-**Other Info:** Created using javascript, mysql and inquierer
+**Other Info:** Created using javascript, mysql(to query/update database) and inquirer to prompt selections and inputs.
 
 ---
 
@@ -49,6 +51,4 @@ N/A
 **E-Mail:** [johnahysong@gmail.com](mailto:johnatticus)
 
 **GitHub Repo:** [Click Here](https://github.com/johnatticus/Employee-Tracker)
-
-**GitHub Live Link:** [Click Here](https://johnatticus.github.io/Employee-Tracker)
 
