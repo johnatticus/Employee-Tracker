@@ -74,8 +74,8 @@ function mainMenu() {
                 updateRole();
                 break;
             case 'QUIT':
-                quit();
-                break;
+                console.log("Thank you tracking your employees.");
+                process.exit();
         }
     });
 }
@@ -308,10 +308,10 @@ function init() {
 }
 
 // quit the app function
-function quit() {
-    console.log("Thank you tracking your employees.");
-    process.exit();
-}
+// function quit() {
+//     console.log("Thank you tracking your employees.");
+//     process.exit();
+// }
 
 // calls first function when the app is initially ran
 init();
